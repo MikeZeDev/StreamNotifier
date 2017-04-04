@@ -44,7 +44,7 @@ This program can help you to know if your favorite broadcaster is online.
 
 ## About & Technical details
 
-I wrote this program because it useful for me, and because i wanted to try some .Net features.
+I wrote this program because its useful for me, and because i wanted to try some .Net features.
 
 * C#
 
