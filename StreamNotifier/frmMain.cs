@@ -276,9 +276,9 @@ namespace StreamNotifier
             LiveStream lv = (LiveStream)e;
 
             ToolStripMenuItem mnu = new ToolStripMenuItem();
-            mnu.Text = "Launch Livestreamer";
+            mnu.Text = "Launch StreamLink";
             mnu.Tag = lv.Streamurl;
-            mnu.Click += LaunchLiveStreamerEvent;
+            mnu.Click += LaunchStreamLinkEvent;
             mnu.Enabled = !MultiSelect;
             Mymenu.Items.Add(mnu);
 
@@ -400,7 +400,7 @@ namespace StreamNotifier
             win.Delay = 5000;
             win.ContentText = o.Title;
             win.Image = AppSettings.StreamsLogos.Images[o.PictureKey];//Image.FromFile(o.Picture); //Avatar !
-            win.Click += new System.EventHandler(LaunchLiveStreamerEvent);
+            win.Click += new System.EventHandler(LaunchStreamLinkEvent);
 
             return win;
         }
@@ -428,10 +428,11 @@ namespace StreamNotifier
         private void ViewInBrowser(string url)
         {
             Process.Start(url);
+
         }
-        private void LaunchLiveStreamer(string url)
+        private void LaunchStreamLink(string url)
         {
-            Process.Start("livestreamer", url + " best");
+            Process.Start("streamlink", url + " best");
         }
 
         #endregion
@@ -603,15 +604,15 @@ namespace StreamNotifier
         }
 
         //POPUP MENU
-        private void LaunchLiveStreamerEvent(object sender, System.EventArgs e)
+        private void LaunchStreamLinkEvent(object sender, System.EventArgs e)
         {
             if (sender is PopupNotifier)
             {
-                LaunchLiveStreamer((sender as PopupNotifier).Link);
+                LaunchStreamLink((sender as PopupNotifier).Link);
             }
             else if (sender is ToolStripMenuItem)
             {
-                LaunchLiveStreamer((string)(sender as ToolStripMenuItem).Tag);
+                LaunchStreamLink((string)(sender as ToolStripMenuItem).Tag);
             }
         }
         private void CheckLiveStateEvent(object sender, System.EventArgs e)
@@ -686,7 +687,7 @@ namespace StreamNotifier
                 if (olv.SelectedObject == null) { return; }
 
                 LiveStream lv = (LiveStream)olv.SelectedObject;
-                LaunchLiveStreamer(lv.Streamurl);
+                LaunchStreamLink(lv.Streamurl);
             }
             catch (Exception)
             {

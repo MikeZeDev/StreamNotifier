@@ -38,14 +38,14 @@
             this.loadingCircleToolStripMenuItem1 = new MRG.Controls.UI.LoadingCircleToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.panelStreamInfos = new System.Windows.Forms.Panel();
-            this.labelStreamDescription = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.labelStreamDescription = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1.SuspendLayout();
             this.panelStreamInfos.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -128,14 +128,14 @@
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.AccessibleName = "loadingCircleToolStripMenuItem1";
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.Active = false;
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.Color = System.Drawing.Color.DarkGray;
-            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.InnerCircleRadius = 8;
-            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.Location = new System.Drawing.Point(1, 2);
+            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.InnerCircleRadius = 5;
+            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.Location = new System.Drawing.Point(0, 0);
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.Name = "loadingCircleToolStripMenuItem1";
-            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.NumberSpoke = 10;
-            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.OuterCircleRadius = 10;
+            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.NumberSpoke = 12;
+            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.OuterCircleRadius = 11;
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.RotationSpeed = 100;
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.Size = new System.Drawing.Size(28, 20);
-            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.SpokeThickness = 4;
+            this.loadingCircleToolStripMenuItem1.LoadingCircleControl.SpokeThickness = 2;
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.StylePreset = MRG.Controls.UI.LoadingCircle.StylePresets.MacOSX;
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.TabIndex = 1;
             this.loadingCircleToolStripMenuItem1.LoadingCircleControl.Text = "loadingCircleToolStripMenuItem1";
@@ -165,26 +165,6 @@
             this.panelStreamInfos.Size = new System.Drawing.Size(632, 147);
             this.panelStreamInfos.TabIndex = 9;
             // 
-            // labelStreamDescription
-            // 
-            this.labelStreamDescription.Location = new System.Drawing.Point(100, 13);
-            this.labelStreamDescription.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.labelStreamDescription.Name = "labelStreamDescription";
-            this.labelStreamDescription.Size = new System.Drawing.Size(523, 80);
-            this.labelStreamDescription.TabIndex = 3;
-            this.labelStreamDescription.Text = "sdfg42ds2g4.5fdsg354fd5g.f4jdhgbfuhjsdgfjhydsefkuj;sgvegfdjyqvcvfjhdvesh edfvgcjh" +
-    "ysvjgsvdscgeyhehgjczhyevyzhevczyegvcyhzuecvzikvgeczyevgczhyecvzevczevcezjvcehvzy" +
-    "cz";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(14, 13);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(80, 80);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.linkLabel1);
@@ -204,6 +184,25 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://twitch.tv/Kappa";
             this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // labelStreamDescription
+            // 
+            this.labelStreamDescription.Location = new System.Drawing.Point(100, 13);
+            this.labelStreamDescription.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.labelStreamDescription.Name = "labelStreamDescription";
+            this.labelStreamDescription.Size = new System.Drawing.Size(523, 80);
+            this.labelStreamDescription.TabIndex = 3;
+            this.labelStreamDescription.Text = "Nothing ";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Location = new System.Drawing.Point(14, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(80, 80);
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
             // 
             // frmAddStream
             // 
@@ -227,8 +226,8 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.panelStreamInfos.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

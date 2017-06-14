@@ -109,7 +109,7 @@ namespace StreamNotifier
         {
             FormEnable(false);
             SpinnerEnable(true);
-            LS = Settings.AppSettings.ActivateFromUrl(SERVICE, URL);
+            LS = AppSettings.ActivateFromUrl(SERVICE, URL);
             LS.GetStreamInfos();
 
             streamexisting = (String.IsNullOrEmpty(LS.Streamurl)) ? false : true; 
@@ -243,7 +243,7 @@ namespace StreamNotifier
     
         private void button2_Click(object sender, EventArgs e)
         {
-            Settings.AppSettings.AddStream(LS);
+            AppSettings.AddStream(LS);
             Close();
         }
 
@@ -257,8 +257,12 @@ namespace StreamNotifier
             SERVICE = comboBox1.Text;
         }
 
+
         #endregion
 
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
 
+        }
     }
 }
