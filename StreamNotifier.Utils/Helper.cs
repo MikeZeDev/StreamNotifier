@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace Common
@@ -35,7 +37,7 @@ namespace Common
             fs.Close();
             try
             {
-               bmp.Save(file, imageFormat);
+                bmp.Save(file, imageFormat);
 
             }
             catch (Exception e)
@@ -45,15 +47,15 @@ namespace Common
             }
             bmp.Dispose();
             newImage.Dispose();
-           
+
         }
 
-     static public void Empty(string folder)
-        { 
-        DirectoryInfo di = new DirectoryInfo(folder);
-
-        foreach (FileInfo file in di.GetFiles())
+        static public void Empty(string folder)
         {
+            DirectoryInfo di = new DirectoryInfo(folder);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
                 try
                 {
                     file.Delete();
@@ -62,9 +64,9 @@ namespace Common
                 {
                     Console.WriteLine(e);
                 }
-        }
-        foreach (DirectoryInfo dir in di.GetDirectories())
-        {
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
                 try
                 {
                     dir.Delete();
@@ -74,7 +76,7 @@ namespace Common
                     Console.WriteLine(e);
                 }
             }
-    }
+        }
 
 
         //Twitch Api now requires a CLIENT-ID in Http requests headers
@@ -84,7 +86,7 @@ namespace Common
             {
                 using (WebClient strJson = new WebClient())
                 {
-                    
+
                     foreach (KeyValuePair<string, string> KV in headers)
                     {
                         try
@@ -120,7 +122,7 @@ namespace Common
                 {
                     string str = strJson.DownloadString(url);
                     byte[] bytes = Encoding.Default.GetBytes(str);
-                    return  Encoding.UTF8.GetString(bytes);
+                    return Encoding.UTF8.GetString(bytes);
                 }
             }
             catch (Exception)
@@ -129,6 +131,47 @@ namespace Common
             }
 
         }
+
+        public static string HttpPost(string url, Dictionary<string, string> headers, NameValueCollection pairs)
+        {
+
+            try
+            {
+                byte[] result = null;
+                using (WebClient webClient = new WebClient())
+                {
+
+                    //Add headers 
+                    foreach (KeyValuePair<string, string> KV in headers)
+                    {
+                        try
+                        {
+                            webClient.Headers.Add(KV.Key, KV.Value);
+                        }
+
+                        catch (Exception)
+                        {
+                            webClient.Headers.Set(KV.Key, KV.Value);
+                        }
+
+                    }
+
+
+
+
+                    result = webClient.UploadValues(url, pairs);
+                }
+
+                return Encoding.UTF8.GetString(result);
+            }
+            catch (Exception ) 
+            {
+
+                return "";
+            }
+
+        }
+
 
         public static bool RemoteFileExists(string url)
         {
