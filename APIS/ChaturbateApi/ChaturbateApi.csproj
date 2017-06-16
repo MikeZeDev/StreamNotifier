@@ -58,10 +58,12 @@
     <ProjectReference Include="..\..\StreamNotifier.Interfaces\StreamNotifier.Interfaces.csproj">
       <Project>{ef72b7e6-064c-4aa6-9ca3-5e921db62609}</Project>
       <Name>StreamNotifier.Interfaces</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\StreamNotifier.Utils\StreamNotifier.Utils.csproj">
       <Project>{17f8f39a-e764-4443-be51-2eaac2ef4f14}</Project>
       <Name>StreamNotifier.Utils</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
