@@ -48,13 +48,13 @@
             this.progressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.lblTxt = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.LC = new MRG.Controls.UI.LoadingCircle();
             this.objectListView1 = new BrightIdeasSoftware.FastObjectListView();
             this.colAvatar = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.colName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.colTitle = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.colService = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.colStatus = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.LC = new MRG.Controls.UI.LoadingCircle();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -167,6 +167,7 @@
             this.delBtn.Name = "delBtn";
             this.delBtn.Size = new System.Drawing.Size(36, 36);
             this.delBtn.Text = "Remove selected streams";
+            this.delBtn.Click += new System.EventHandler(this.delBtn_Click);
             // 
             // refreshBtn
             // 
@@ -224,6 +225,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1153, 523);
             this.panel1.TabIndex = 10;
+            // 
+            // LC
+            // 
+            this.LC.Active = false;
+            this.LC.Color = System.Drawing.Color.DarkGray;
+            this.LC.InnerCircleRadius = 6;
+            this.LC.Location = new System.Drawing.Point(520, 229);
+            this.LC.Name = "LC";
+            this.LC.NumberSpoke = 9;
+            this.LC.OuterCircleRadius = 7;
+            this.LC.RotationSpeed = 100;
+            this.LC.Size = new System.Drawing.Size(113, 65);
+            this.LC.SpokeThickness = 4;
+            this.LC.StylePreset = MRG.Controls.UI.LoadingCircle.StylePresets.Firefox;
+            this.LC.TabIndex = 10;
+            this.LC.Text = "LC";
+            this.LC.Visible = false;
             // 
             // objectListView1
             // 
@@ -285,23 +303,6 @@
             this.colStatus.AspectName = "OnAir";
             this.colStatus.Text = "Status";
             this.colStatus.Width = 116;
-            // 
-            // LC
-            // 
-            this.LC.Active = false;
-            this.LC.Color = System.Drawing.Color.DarkGray;
-            this.LC.InnerCircleRadius = 6;
-            this.LC.Location = new System.Drawing.Point(520, 229);
-            this.LC.Name = "LC";
-            this.LC.NumberSpoke = 9;
-            this.LC.OuterCircleRadius = 7;
-            this.LC.RotationSpeed = 100;
-            this.LC.Size = new System.Drawing.Size(113, 65);
-            this.LC.SpokeThickness = 4;
-            this.LC.StylePreset = MRG.Controls.UI.LoadingCircle.StylePresets.Firefox;
-            this.LC.TabIndex = 10;
-            this.LC.Text = "LC";
-            this.LC.Visible = false;
             // 
             // frmMain
             // 

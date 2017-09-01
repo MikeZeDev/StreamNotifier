@@ -568,6 +568,37 @@ namespace StreamNotifier
             StreamCheck();
         }
 
+        private void delBtn_Click(object sender, EventArgs e)
+        {
+
+            if (objectListView1.SelectedObjects.Count < 1) return;
+
+            string message = ""; 
+            
+            bool multiple = (objectListView1.SelectedObjects.Count > 1);
+
+            if (multiple)
+            {
+                message = "Are you sure you want to remove all selected streams ? ";
+            }
+            else
+            {
+                message = String.Format("Are you sure you want to remove {0} : {1} ? ", ((LiveStream)objectListView1.SelectedObject).StreamKey, ((LiveStream)objectListView1.SelectedObject).Displayname);
+            }
+
+            if (MessageBox.Show(this, message, "StreamNotifier", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
+    
+
+           foreach(LiveStream o in objectListView1.SelectedObjects)
+            {
+                AppSettings.LiveStreams.Remove(o);
+            }
+
+            objectListView1.SetObjects(AppSettings.LiveStreams);
+
+            // AppSettings.SaveStreamList();
+        }
+
 
         private void addBtn_Click(object sender, EventArgs e)
         {
@@ -697,9 +728,10 @@ namespace StreamNotifier
         }
 
 
+
         #endregion
 
-       
+  
     }
 
 
