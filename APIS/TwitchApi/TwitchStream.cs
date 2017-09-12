@@ -15,6 +15,12 @@ namespace TwitchApi
 
         #region Properties
 
+        public string Quality
+        {
+            get;
+            set;
+        }
+
         public string StreamKey
         {
             get

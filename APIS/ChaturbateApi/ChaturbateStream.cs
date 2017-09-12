@@ -23,6 +23,7 @@ namespace ChaturbateApi
         public ChaturbateStream(string id)
         {
             this.id = id;
+            
         }
 
 
@@ -133,6 +134,11 @@ namespace ChaturbateApi
             set;
 
         }
+        public string Quality
+        {
+            get;
+            set;
+        }
 
         #endregion
 
@@ -231,5 +237,7 @@ namespace ChaturbateApi
             oldLiveState = _onair;
             return changed;
         }
+
+  
     }
 }

@@ -77,6 +77,16 @@ namespace StreamNotifier.Interfaces
         }
 
         /// <summary>
+        /// Prefered quality
+        /// </summary>
+        string Quality
+        {
+            get;
+            set;
+        }
+
+
+        /// <summary>
         /// After a check, is true if we need to show a popup
         /// </summary>
         bool ShowPopup
@@ -100,7 +110,8 @@ namespace StreamNotifier.Interfaces
         /// </summary>
         bool GoneOnline();
 
-   
+ 
+
 
 
 

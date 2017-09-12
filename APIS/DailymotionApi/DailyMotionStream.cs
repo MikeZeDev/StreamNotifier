@@ -21,6 +21,8 @@ namespace DailymotionApi
          */
 
 
+
+
         public string StreamKey
         {
             get
@@ -107,6 +109,13 @@ namespace DailymotionApi
             }
         }
 
+        public string Quality
+        {
+            get;
+            set;
+        }
+
+
         public bool ShowPopup
         {
             get;
@@ -125,6 +134,8 @@ namespace DailymotionApi
             get;
             set;
         }
+
+
 
         #endregion
 
@@ -148,6 +159,7 @@ namespace DailymotionApi
             oldLiveState = LiveStatus.Unknown;
             _onair = LiveStatus.Unknown;
         }
+
 
 
 

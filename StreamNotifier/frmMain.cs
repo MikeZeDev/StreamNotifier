@@ -277,14 +277,29 @@ namespace StreamNotifier
 
             ToolStripMenuItem mnu = new ToolStripMenuItem();
             mnu.Text = "Launch StreamLink";
-            mnu.Tag = lv.Streamurl;
             mnu.Click += LaunchStreamLinkEvent;
             mnu.Enabled = !MultiSelect;
             Mymenu.Items.Add(mnu);
 
+
+            //Building Launching in custom quality menu
+            ToolStripMenuItem Launchinquality = new ToolStripMenuItem();
+            Launchinquality.Text = "Launch in ...";
+            Launchinquality.Enabled = !MultiSelect;
+
+            foreach (string q in AppSettings.Qualities)
+            {
+                mnu = new ToolStripMenuItem();
+                mnu.Text = q;
+                mnu.Click += LaunchStreamInQualityEvent;
+                Launchinquality.DropDownItems.Add(mnu);
+            }
+
+            Mymenu.Items.Add(Launchinquality);
+
+
             mnu = new ToolStripMenuItem();
             mnu.Text = "View in Browser";
-            mnu.Tag = lv.Streamurl;
             mnu.Click += ViewInBrowserMenuEvent;
             mnu.Enabled = !MultiSelect;
             Mymenu.Items.Add(mnu);
@@ -295,9 +310,32 @@ namespace StreamNotifier
             mnu.Enabled = !CheckInProgress();
             Mymenu.Items.Add(mnu);
 
+
+            //Building quality set menu
+            ToolStripMenuItem qualitySubmenu = new ToolStripMenuItem();
+            qualitySubmenu.Text = "Set Quality...";
+
+            foreach (string q in AppSettings.Qualities)
+            {
+
+                mnu = new ToolStripMenuItem();
+                mnu.Text = q;
+                mnu.Click += SetQualityEvent;
+                qualitySubmenu.DropDownItems.Add(mnu);
+
+                if (!MultiSelect) mnu.Checked = (q == lv.Quality);
+            }
+            
+            Mymenu.Items.Add(qualitySubmenu);
+
+
+
+
+
             return Mymenu;
         }
 
+   
 
 
         //Monitors
@@ -401,6 +439,7 @@ namespace StreamNotifier
             win.ContentText = o.Title;
             win.Image = AppSettings.StreamsLogos.Images[o.PictureKey];//Image.FromFile(o.Picture); //Avatar !
             win.Click += new System.EventHandler(LaunchStreamLinkEvent);
+            win.Quality = o.Quality; //Because Popupnotifier is totally deconnected from the Livestream object, better put a property
 
             return win;
         }
@@ -430,10 +469,16 @@ namespace StreamNotifier
             Process.Start(url);
 
         }
-        private void LaunchStreamLink(string url)
+        private void LaunchStreamLink(LiveStream lv)
         {
-            Process.Start("streamlink", url + " best");
+            Process.Start("streamlink", String.Format( "{0} {1}", lv.Streamurl, lv.Quality));
         }
+
+        private void LaunchStreamLink(string link, string quality)
+        {
+            Process.Start("streamlink", String.Format("{0} {1}", link, quality));
+        }
+
 
         #endregion
 
@@ -596,7 +641,7 @@ namespace StreamNotifier
 
             objectListView1.SetObjects(AppSettings.LiveStreams);
 
-            // AppSettings.SaveStreamList();
+             AppSettings.SaveStreamList();
         }
 
 
@@ -635,17 +680,19 @@ namespace StreamNotifier
         }
 
         //POPUP MENU
-        private void LaunchStreamLinkEvent(object sender, System.EventArgs e)
+        private void LaunchStreamLinkEvent(object sender, EventArgs e)
         {
             if (sender is PopupNotifier)
             {
-                LaunchStreamLink((sender as PopupNotifier).Link);
+                LaunchStreamLink((sender as PopupNotifier).Link, (sender as PopupNotifier).Quality);
             }
             else if (sender is ToolStripMenuItem)
             {
-                LaunchStreamLink((string)(sender as ToolStripMenuItem).Tag);
+                LaunchStreamLink( ((LiveStream) objectListView1.SelectedObject));
             }
         }
+
+    
         private void CheckLiveStateEvent(object sender, System.EventArgs e)
         {
              MarkForChecking(true);
@@ -657,11 +704,30 @@ namespace StreamNotifier
 
         private void ViewInBrowserMenuEvent(object sender, EventArgs e)
         {
-            if (sender is ToolStripMenuItem)
-            {
-                ViewInBrowser((string)(sender as ToolStripMenuItem).Tag);
-            }
+               ViewInBrowser(((LiveStream)objectListView1.SelectedObject).Streamurl);
         }
+
+        private void  LaunchStreamInQualityEvent(object sender, EventArgs e)
+        {
+            LaunchStreamLink(
+                ((LiveStream)objectListView1.SelectedObject).Streamurl,
+                (sender as ToolStripMenuItem).Text
+
+                );
+        }
+
+        private void SetQualityEvent(object sender, EventArgs e)
+        {
+            foreach (LiveStream o in objectListView1.SelectedObjects)
+            {
+                o.Quality = (sender as ToolStripMenuItem).Text;
+            }
+
+            AppSettings.SaveStreamList();
+        }
+
+
+
         private void closeStreamNotifierToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
@@ -718,7 +784,7 @@ namespace StreamNotifier
                 if (olv.SelectedObject == null) { return; }
 
                 LiveStream lv = (LiveStream)olv.SelectedObject;
-                LaunchStreamLink(lv.Streamurl);
+                LaunchStreamLink(lv);
             }
             catch (Exception)
             {

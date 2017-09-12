@@ -17,6 +17,12 @@ namespace YoutubeApi
 
         #region Properties
 
+        public string Quality
+        {
+            get;
+            set;
+        }
+
         public string StreamKey
         {
             get
@@ -161,6 +167,9 @@ namespace YoutubeApi
             channel.GetChannelInfos(true);
 
         }
+
+        
+
 
         public bool GoneOnline()
         {

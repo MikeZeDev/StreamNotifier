@@ -22,6 +22,10 @@ namespace StreamNotifier.Settings
         private static int default_retrydelay = 3000;
 
         public static string Default_picturekey = "STN_DEFAULT_PICTURE";
+        public static string Default_quality = "best";
+
+        public static string[] Qualities = { "audio_only", "160p", "360p", "480p", "720p", "720p60_alt", "720p60", "best", "worst" };
+
 
 
         private static Dictionary<string, Type> Apis = new Dictionary<string, Type>();
@@ -139,6 +143,7 @@ namespace StreamNotifier.Settings
                     string stype = xn["StreamType"].InnerText;
                     LiveStream lv = Activate(stype, skey);
                     lv.GetStreamInfos();
+                    lv.Quality = (xn["Quality"] == null) ? Default_quality : xn["Quality"].InnerText;
                     AddStream(lv);
 
                 }
@@ -191,6 +196,7 @@ namespace StreamNotifier.Settings
                         writer.WriteElementString("StreamKey", entry.StreamKey);
                         writer.WriteElementString("StreamType", entry.StreamType);
                         writer.WriteElementString("Name", entry.Displayname);
+                        writer.WriteElementString("Quality", entry.Quality);
                         writer.WriteEndElement();
 
                     }

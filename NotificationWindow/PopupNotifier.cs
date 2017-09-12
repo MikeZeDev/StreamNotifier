@@ -154,6 +154,7 @@ namespace NotificationWindow
         }
 
         private Size imageSize = new Size(0, 0);
+        public string Quality;
 
         [Category("Image")]
         [Description("Icon image to display.")]
