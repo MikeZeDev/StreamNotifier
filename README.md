@@ -24,12 +24,15 @@ This program can help you to know if your favorite broadcaster is online.
 
 * Dailymotion
 
+* Chaturbate 
+
+* More to come....
 
 ## TODO (order not relevant)
 
 - Create a GUI for the config
 
-- Allow the user to choose a default quality for a streaming service / a particular stream
+- Better quality support (can be tricky)
 
 - Add more streaming services
 
