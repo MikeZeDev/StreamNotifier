@@ -2,6 +2,7 @@
 using StreamNotifier.Interfaces;
 using System;
 using System.Drawing;
+using System.Xml;
 
 namespace YoutubeApi
 {
@@ -14,6 +15,8 @@ namespace YoutubeApi
         private LiveStatus _onair;
         private YoutubeChannel channel;
         private const string BASEURL = "https://www.youtube.com";
+
+        public string StreamerID { get; set; }
 
         #region Properties
 
@@ -150,6 +153,13 @@ namespace YoutubeApi
             this.channelid = channelid;
         }
 
+        public void FromXML(XmlNode xML)
+        {
+            Quality = (xML["Quality"] == null) ? "best" : xML["Quality"].InnerText;
+            channel = new YoutubeChannel(xML);
+
+        }
+
 
         public static string GetStreamType()
         {
@@ -167,6 +177,8 @@ namespace YoutubeApi
             channel.GetChannelInfos(true);
 
         }
+
+
 
         
 
@@ -200,6 +212,7 @@ namespace YoutubeApi
 
             return changed;
         }
+
 
     }
 

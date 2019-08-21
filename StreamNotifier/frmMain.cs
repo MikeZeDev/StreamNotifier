@@ -92,7 +92,7 @@ namespace StreamNotifier
             SpinnerEnable(true);
             ProgressWindowSetStyle(ProgressBarStyle.Marquee);
             AppSettings.LoadApiAssembliesAndTypes();
-            
+
         }
         private void bwLoadApis_AfterLoadPlugins(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -100,7 +100,7 @@ namespace StreamNotifier
             ProgressWindowSetCaption("Loading Streams from config");
             bwLoadStreams.RunWorkerAsync();
         }
- 
+
 
         //2) Load Streams
         private void bwLoadStreams_DoWork(object sender, DoWorkEventArgs e)
@@ -145,7 +145,7 @@ namespace StreamNotifier
 
         }
 
-   
+
         //Check all Streams in Settings.
         private void bwCheckStreams_Dowork(object sender, DoWorkEventArgs e)
         {
@@ -260,7 +260,7 @@ namespace StreamNotifier
             progressBar1.Value = (show) ? 0 : progressBar1.Maximum;
         }
 
-   
+
 
         private ContextMenuStrip BuildContextMenu(object e)
         {
@@ -325,7 +325,7 @@ namespace StreamNotifier
 
                 if (!MultiSelect) mnu.Checked = (q == lv.Quality);
             }
-            
+
             Mymenu.Items.Add(qualitySubmenu);
 
 
@@ -335,7 +335,7 @@ namespace StreamNotifier
             return Mymenu;
         }
 
-   
+
 
 
         //Monitors
@@ -399,6 +399,7 @@ namespace StreamNotifier
                 if (o.GoneOnline())
                 {
                     o.ShowPopup = true;
+                    AppSettings.UpdateUiPicture(o);
                 };
 
                 if (!o.OnAir.Equals(LiveStatus.Unknown)) break;
@@ -416,7 +417,7 @@ namespace StreamNotifier
                 if (o.CheckPending)
                 {
                     o.CheckPending = false;
-                    ProgressWindowSetProgress(progressBar1.Value+1);
+                    ProgressWindowSetProgress(progressBar1.Value + 1);
                     CheckIndividualStream(o);
                 }
             }
@@ -471,7 +472,7 @@ namespace StreamNotifier
         }
         private void LaunchStreamLink(LiveStream lv)
         {
-            Process.Start("streamlink", String.Format( "{0} {1}", lv.Streamurl, lv.Quality));
+            Process.Start("streamlink", String.Format("{0} {1}", lv.Streamurl, lv.Quality));
         }
 
         private void LaunchStreamLink(string link, string quality)
@@ -592,7 +593,7 @@ namespace StreamNotifier
 
         #region UI
 
-            //TIMER
+        //TIMER
         private void OnTimerElapsed(object sender, EventArgs e)
         {
             StreamCheck();
@@ -618,8 +619,8 @@ namespace StreamNotifier
 
             if (objectListView1.SelectedObjects.Count < 1) return;
 
-            string message = ""; 
-            
+            string message = "";
+
             bool multiple = (objectListView1.SelectedObjects.Count > 1);
 
             if (multiple)
@@ -632,16 +633,16 @@ namespace StreamNotifier
             }
 
             if (MessageBox.Show(this, message, "StreamNotifier", MessageBoxButtons.YesNo) != DialogResult.Yes) return;
-    
 
-           foreach(LiveStream o in objectListView1.SelectedObjects)
+
+            foreach (LiveStream o in objectListView1.SelectedObjects)
             {
                 AppSettings.LiveStreams.Remove(o);
             }
 
             objectListView1.SetObjects(AppSettings.LiveStreams);
 
-             AppSettings.SaveStreamList();
+            AppSettings.SaveStreamList();
         }
 
 
@@ -688,26 +689,26 @@ namespace StreamNotifier
             }
             else if (sender is ToolStripMenuItem)
             {
-                LaunchStreamLink( ((LiveStream) objectListView1.SelectedObject));
+                LaunchStreamLink(((LiveStream)objectListView1.SelectedObject));
             }
         }
 
-    
+
         private void CheckLiveStateEvent(object sender, System.EventArgs e)
         {
-             MarkForChecking(true);
-             ShowHideProgressWindow(true, "Checking for selected stream(s)....");
-             bwCheckSelectedStreams.RunWorkerAsync();
+            MarkForChecking(true);
+            ShowHideProgressWindow(true, "Checking for selected stream(s)....");
+            bwCheckSelectedStreams.RunWorkerAsync();
         }
 
-     
+
 
         private void ViewInBrowserMenuEvent(object sender, EventArgs e)
         {
-               ViewInBrowser(((LiveStream)objectListView1.SelectedObject).Streamurl);
+            ViewInBrowser(((LiveStream)objectListView1.SelectedObject).Streamurl);
         }
 
-        private void  LaunchStreamInQualityEvent(object sender, EventArgs e)
+        private void LaunchStreamInQualityEvent(object sender, EventArgs e)
         {
             LaunchStreamLink(
                 ((LiveStream)objectListView1.SelectedObject).Streamurl,
@@ -747,7 +748,7 @@ namespace StreamNotifier
             AppSettings.ServicesIcons.ImageSize = new Size(32, 32);
             AppSettings.StreamsLogos.ImageSize = new Size(80, 80);
             AppSettings.StreamsLogos.ColorDepth = ColorDepth.Depth32Bit;
-            AppSettings.StreamsLogos.Images.Add(AppSettings.Default_picturekey,(Image) Properties.Resources.ResourceManager.GetObject(AppSettings.Default_picturekey));
+            AppSettings.StreamsLogos.Images.Add(AppSettings.Default_picturekey, (Image)Properties.Resources.ResourceManager.GetObject(AppSettings.Default_picturekey));
 
 
             InitListView();
@@ -797,7 +798,7 @@ namespace StreamNotifier
 
         #endregion
 
-  
+
     }
 
 

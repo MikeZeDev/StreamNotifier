@@ -3,6 +3,8 @@ using Newtonsoft.Json.Linq;
 using StreamNotifier.Interfaces;
 using System;
 using System.Drawing;
+using System.Text;
+using System.Xml;
 
 namespace HitBoxApi
 {
@@ -17,7 +19,7 @@ namespace HitBoxApi
         private LiveStatus _onair;
         private HitBoxUser user;
 
-
+        public string StreamerID { get; set; }
 
         #region Properties
 
@@ -141,13 +143,18 @@ namespace HitBoxApi
             id = videoid;
             embed_url = "http://www.hitbox.tv/" + id;
             title = id;
-            // StreamType = GetStreamType();
-            //  StreamKey = id;
             oldLiveState = LiveStatus.Unknown;
             _onair = LiveStatus.Unknown;
         }
 
+        public void FromXML(XmlNode xML)
+        {
+            title = (xML["Title"] == null) ? "_blank" : xML["Title"].InnerText;
+            title = Encoding.UTF8.GetString(Convert.FromBase64String(title));
 
+            user = new HitBoxUser(xML);
+
+        }
 
         public static string GetStreamType()
         {
@@ -231,5 +238,6 @@ namespace HitBoxApi
 
         }
 
+     
     }
 }

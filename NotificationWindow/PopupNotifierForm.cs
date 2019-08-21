@@ -23,7 +23,7 @@ namespace NotificationWindow
         /// <summary>
         /// Event that is raised when the text is clicked.
         /// </summary>
-        public event EventHandler LinkClick;
+        public event EventHandler OpenInBrowserClick;
 
         /// <summary>
         /// Event that is raised when the notification window is manually closed.
@@ -236,9 +236,9 @@ namespace NotificationWindow
                 {
                     CloseClick(this, EventArgs.Empty);
                 }
-                if (RectContentText.Contains(e.X, e.Y) && (LinkClick != null))
+                if (RectContentText.Contains(e.X, e.Y) && (OpenInBrowserClick != null))
                 {
-                    LinkClick(this, EventArgs.Empty);
+                    OpenInBrowserClick(this, EventArgs.Empty);
                 }
                 if (RectOptions.Contains(e.X, e.Y) && (Parent.OptionsMenu != null))
                 {

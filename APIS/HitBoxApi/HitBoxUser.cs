@@ -3,6 +3,8 @@ using System;
 using System.IO;
 using System.Net;
 using Common;
+using System.Xml;
+using System.Text;
 
 namespace HitBoxApi
 {
@@ -14,11 +16,20 @@ namespace HitBoxApi
         public string user_logo_small = "";
         public string localavatar;
 
-
         public HitBoxUser(string userid)
         {
             this.id = userid;
             this.user_name = id;
+        }
+
+        public HitBoxUser(XmlNode xML)
+        {
+            id = (xML["StreamKey"] == null) ? "_blank" : xML["StreamKey"].InnerText;
+            user_name = (xML["Name"] == null) ? "_blank" : xML["Name"].InnerText;
+
+            localavatar = (xML["Picture"] == null) ? "_blank" : (xML["Picture"].InnerText);
+            localavatar = Encoding.UTF8.GetString(Convert.FromBase64String(localavatar));
+
         }
 
         public void GetInfos()

@@ -3,6 +3,8 @@ using System;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Xml;
+using System.Text;
 
 namespace YoutubeApi
 {
@@ -19,6 +21,28 @@ namespace YoutubeApi
         public YoutubeChannel(string channelid)
         {
             this.channelid = channelid;
+        }
+
+        public YoutubeChannel(XmlNode xML)
+        {
+            channelid = (xML["StreamKey"] == null) ? "_blank" : xML["StreamKey"].InnerText;
+
+            localavatar = (xML["Picture"] == null) ? "_blank" : (xML["Picture"].InnerText);
+            localavatar = Encoding.UTF8.GetString(Convert.FromBase64String(localavatar));
+
+            title = (xML["Name"] == null) ? "_blank" : xML["Name"].InnerText;
+
+            live_description = (xML["Title"] == null) ? "_blank" : (xML["Title"].InnerText);
+            live_description = Encoding.UTF8.GetString(Convert.FromBase64String(live_description));
+
+            /*
+            display_name = (xML["Name"] == null) ? "_blank" : xML["Name"].InnerText;
+
+      
+
+            */
+
+
         }
 
         public void GetChannelInfos(bool init = false)

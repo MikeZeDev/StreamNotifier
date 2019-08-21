@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.Text;
+using System.Xml;
 
 namespace ChaturbateApi
 {
@@ -139,6 +141,7 @@ namespace ChaturbateApi
             get;
             set;
         }
+        public string StreamerID { get ; set ; }
 
         #endregion
 
@@ -163,30 +166,14 @@ namespace ChaturbateApi
 
             string result = Helper.HttpPost(APIURL, headers, NVC);
 
-
             UpdateMe(result, true);
 
-            //Download thumbnail
-            try
+            bool changed = (oldLiveState != _onair) && (_onair.Equals(LiveStatus.Online));
+
+            if (changed && _onair.Equals(LiveStatus.Online))
             {
-                string filename = "thumbnail_" + id+".jpg";
-                localavatar = Path.Combine(ChaturbateCore.CacheFolder, filename);
-                if (File.Exists(localavatar)) { return; }
-                using (WebClient client = new WebClient())
-                {
-                    //File.Delete(local_thumbnail_small_url);
-                    client.DownloadFile(String.Format(URLTHUMBBASE, id), localavatar);
-                    Helper.ScaleImageFile(localavatar, 80, 80);
-
-
-                }
-
+                UpdateThumbnail();
             }
-            catch { }
-
-
-
-
         }
 
         private void UpdateMe(string response, bool init=false)
@@ -215,6 +202,10 @@ namespace ChaturbateApi
                 _onair = LiveStatus.Unknown;
 
             }
+
+
+
+
         }
 
         public bool GoneOnline()
@@ -235,9 +226,58 @@ namespace ChaturbateApi
             bool changed = (oldLiveState != _onair) && (_onair.Equals(LiveStatus.Online));
 
             oldLiveState = _onair;
+
+            if (changed && _onair.Equals(LiveStatus.Online))
+            {
+                UpdateThumbnail();
+            }
+
+
             return changed;
         }
 
   
+        private void UpdateThumbnail()
+        {
+
+            try
+            {
+                string filename = "thumbnail_" + id + ".jpg";
+                localavatar = Path.Combine(ChaturbateCore.CacheFolder, filename);
+
+                //if (File.Exists(localavatar)) { return; }
+
+                try
+                {
+                    File.Delete(localavatar);
+                }
+                catch (Exception)
+                {
+                }
+
+
+                using (WebClient client = new WebClient())
+                {
+                    //File.Delete(local_thumbnail_small_url);
+                    client.DownloadFile(String.Format(URLTHUMBBASE, id), localavatar);
+                    Helper.ScaleImageFile(localavatar, 80, 80);
+                }
+
+               // UpdateAvatar(PictureKey, localavatar);
+                
+
+            }
+            catch { }
+        }
+
+        public void FromXML(XmlNode xML)
+        {
+            Quality = (xML["Quality"] == null) ? "best" : xML["Quality"].InnerText;
+
+            localavatar = (xML["Picture"] == null) ? "_blank" : xML["Picture"].InnerText;
+            localavatar = Encoding.UTF8.GetString(Convert.FromBase64String(localavatar));
+
+
+        }
     }
 }

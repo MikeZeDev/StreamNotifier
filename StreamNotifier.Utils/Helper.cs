@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StreamNotifier.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
@@ -12,8 +13,7 @@ namespace Common
 {
     public class Helper
     {
-
-
+      
         static public void ScaleImageFile(string file, int maxWidth, int maxHeight)
         {
             FileStream fs = new FileStream(file, FileMode.Open, FileAccess.ReadWrite);
@@ -204,6 +204,8 @@ namespace Common
             }
             else return str;
         }
+
+
 
 
         /*

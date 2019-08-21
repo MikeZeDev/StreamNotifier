@@ -5,6 +5,8 @@ using System.IO;
 using System.Net;
 using System.Drawing;
 using StreamNotifier.Interfaces;
+using System.Xml;
+using System.Text;
 
 namespace DailymotionApi
 {
@@ -14,15 +16,8 @@ namespace DailymotionApi
 
 
         #region Properties
-        /*
-          Streamurl = embed_url;
-            Displayname = user.screenname;
-            Picture = user.localavatar;
-         */
 
-
-
-
+        public string StreamerID { get; set; }
         public string StreamKey
         {
             get
@@ -160,6 +155,22 @@ namespace DailymotionApi
             _onair = LiveStatus.Unknown;
         }
 
+        public void FromXML(XmlNode xML)
+        {
+            Quality = (xML["Quality"] == null) ? "best" : xML["Quality"].InnerText;
+
+            title = (xML["Title"] == null) ? "dummy" : xML["Title"].InnerText;
+            title = Encoding.UTF8.GetString(Convert.FromBase64String(title));
+
+            id = (xML["StreamKey"] == null) ? "_dummy" : xML["StreamKey"].InnerText;
+
+
+            embed_url = (xML["Url"] == null) ? "_blank" : (xML["Url"].InnerText);
+            embed_url = Encoding.UTF8.GetString(Convert.FromBase64String(embed_url));
+
+            user = new DailyMotionUser(xML);
+
+        }
 
 
 
@@ -259,7 +270,7 @@ namespace DailymotionApi
 
         }
 
-     }
+    }
 
 
 

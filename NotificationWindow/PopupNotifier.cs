@@ -26,7 +26,7 @@ namespace NotificationWindow
         /// Event that is raised when the text in the notification window is clicked.
         /// </summary>
         public event EventHandler Click;
-
+        
         /// <summary>
         /// Event that is raised when the notification window is manually closed.
         /// </summary>
@@ -293,7 +293,7 @@ namespace NotificationWindow
             ImagePadding = new Padding(0);
             HeaderHeight = 9;
             ShowCloseButton = true;
-            ShowOptionsButton = false;
+            ShowOptionsButton = true;
             Delay = 3000;
             AnimationInterval = 10;
             AnimationDuration = 500;
@@ -307,7 +307,7 @@ namespace NotificationWindow
             frmPopup.MouseEnter += new EventHandler(frmPopup_MouseEnter);
             frmPopup.MouseLeave += new EventHandler(frmPopup_MouseLeave);
             frmPopup.CloseClick += new EventHandler(frmPopup_CloseClick);
-            frmPopup.LinkClick += new EventHandler(frmPopup_LinkClick);
+            frmPopup.OpenInBrowserClick += new EventHandler(frmPopup_LinkClick);
 
 			frmPopup.HideForm += new EventHandler(frmPopup_HideNotif); 
 

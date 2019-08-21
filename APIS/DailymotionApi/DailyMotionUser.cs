@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
+using System.Text;
+using System.Xml;
 
 namespace DailymotionApi
 {
@@ -20,7 +22,18 @@ namespace DailymotionApi
             id = userid;
 		}
 
-		public void GetInfos()
+        public DailyMotionUser(XmlNode xML)
+        {
+            id = (xML["StreamKey"] == null) ? "_blank" : xML["StreamKey"].InnerText;
+            screenname = (xML["Name"] == null) ? "_blank" : xML["Name"].InnerText;
+            localavatar = (xML["Picture"] == null) ? "_blank" : xML["Picture"].InnerText;
+            localavatar = Encoding.UTF8.GetString(Convert.FromBase64String(localavatar));
+
+
+
+        }
+
+        public void GetInfos()
 		{
 			string url = "https://api.dailymotion.com/user/" + id + "?fields=id,screenname,avatar_80_url";
             string Response = Helper.HttpGet(url);

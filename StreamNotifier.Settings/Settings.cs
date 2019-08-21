@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
@@ -56,7 +57,7 @@ namespace StreamNotifier.Settings
             }
             xml = null;
 
-            if( String.IsNullOrEmpty(Get("retrycount")))
+            if (String.IsNullOrEmpty(Get("retrycount")))
             {
                 Set("retrycount", default_retrycount.ToString());
             }
@@ -115,7 +116,7 @@ namespace StreamNotifier.Settings
         /// <returns></returns>
         public static void SetPluginSetting(string pluginname, string key, string value)
         {
-             PlugSettings[pluginname].Set(key, value);
+            PlugSettings[pluginname].Set(key, value);
         }
 
 
@@ -123,7 +124,7 @@ namespace StreamNotifier.Settings
 
 
         /// <summary>
-        /// Charge la liste des streams via le xml
+        /// Charge la liste des streams via le xml (offline)
         /// </summary>
         /// <returns></returns>
         public static void LoadStreamsList()
@@ -142,8 +143,10 @@ namespace StreamNotifier.Settings
                     string skey = xn["StreamKey"].InnerText;
                     string stype = xn["StreamType"].InnerText;
                     LiveStream lv = Activate(stype, skey);
-                    lv.GetStreamInfos();
-                    lv.Quality = (xn["Quality"] == null) ? Default_quality : xn["Quality"].InnerText;
+                    lv.FromXML(xn);
+
+                    //lv.GetStreamInfos();
+                    //lv.Quality = (xn["Quality"] == null) ? Default_quality : xn["Quality"].InnerText;
                     AddStream(lv);
 
                 }
@@ -155,7 +158,7 @@ namespace StreamNotifier.Settings
             xml = null;
 
         }
-        
+
 
 
         /// <summary>
@@ -194,9 +197,20 @@ namespace StreamNotifier.Settings
 
                         writer.WriteStartElement("Stream");
                         writer.WriteElementString("StreamKey", entry.StreamKey);
+                        writer.WriteElementString("StreamerID", entry.StreamerID);
+
                         writer.WriteElementString("StreamType", entry.StreamType);
                         writer.WriteElementString("Name", entry.Displayname);
                         writer.WriteElementString("Quality", entry.Quality);
+                        writer.WriteElementString("Title", Convert.ToBase64String(Encoding.UTF8.GetBytes(entry.Title)));
+
+                        if (entry.Picture != null)
+                        {
+                            writer.WriteElementString("Picture", Convert.ToBase64String(Encoding.UTF8.GetBytes(entry.Picture)));
+                        }
+                        else writer.WriteElementString("Picture", Convert.ToBase64String(Encoding.UTF8.GetBytes(Default_picturekey)));
+
+                        writer.WriteElementString("Url", Convert.ToBase64String(Encoding.UTF8.GetBytes(entry.Streamurl)));
                         writer.WriteEndElement();
 
                     }
@@ -268,6 +282,7 @@ namespace StreamNotifier.Settings
 
                 parameters = new object[] { id };
                 stream = (LiveStream)t.GetMethod("Activate", BindingFlags.Public | BindingFlags.Static).Invoke(null, parameters);
+                stream.Quality = "best";
 
 
             }
@@ -296,7 +311,7 @@ namespace StreamNotifier.Settings
                 // stream = Activator.CreateInstance(t, id) as LiveStream;
                 object[] parameters = new object[] { id };
                 stream = (LiveStream)t.GetMethod("Activate", BindingFlags.Public | BindingFlags.Static).Invoke(null, parameters);
-
+                stream.Quality = "best";
 
             }
             catch (Exception)
@@ -320,6 +335,7 @@ namespace StreamNotifier.Settings
                 // stream = Activator.CreateInstance(t, id) as LiveStream;
                 object[] parameters = new object[] { id };
                 stream = (LiveStream)t.GetMethod("Activate", BindingFlags.Public | BindingFlags.Static).Invoke(null, parameters);
+                stream.Quality = "best";
             }
             catch (Exception)
             {
@@ -412,7 +428,7 @@ namespace StreamNotifier.Settings
         {
             bool result = false;
 
-            foreach(LiveStream LV in LiveStreams)
+            foreach (LiveStream LV in LiveStreams)
             {
                 result = LV.Streamurl == LS.Streamurl;
                 if (result) { break; }
@@ -424,22 +440,27 @@ namespace StreamNotifier.Settings
 
 
 
-        /// <summary>
-        /// Ajoute un stream à la liste des streams 
-        /// </summary>
-        /// <param name="LS"></param>
-        public static void AddStream(LiveStream LS)
+
+
+
+
+
+        public static void UpdateUiPicture(LiveStream LS)
         {
             try
             {
-                if (!SteamInList(LS))
+
+                if ((!String.IsNullOrEmpty(LS.Picture) && File.Exists(LS.Picture)))
                 {
-                    
+                    LS.PictureKey = LS.StreamKey;
 
-
-                    if ((!String.IsNullOrEmpty(LS.Picture) && File.Exists(LS.Picture)) )
+                    try
                     {
-                        LS.PictureKey = LS.StreamKey;
+                        StreamsLogos.Images.RemoveByKey(LS.PictureKey);
+                    }
+                    catch { }
+
+
                         FileStream fs = new FileStream(LS.Picture, FileMode.Open, FileAccess.Read);
                         StreamsLogos.Images.Add(LS.PictureKey, Image.FromStream(fs));
                         fs.Dispose();
@@ -451,13 +472,22 @@ namespace StreamNotifier.Settings
                     }
 
 
-                }
+                
             }
             catch (Exception)
             {
                 SetDefaultPicture(LS);
             }
+        }
 
+
+        /// <summary>
+        /// Ajoute un stream à la liste des streams 
+        /// </summary>
+        /// <param name="LS"></param>
+        public static void AddStream(LiveStream LS)
+        {
+            UpdateUiPicture(LS);
             LiveStreams.Add(LS);
         }
 

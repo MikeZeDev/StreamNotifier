@@ -3,9 +3,13 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
+using System.Text;
+using System.Xml;
 
 namespace TwitchApi
 {
+
+    /*
     public class TwitchChannel
     {
         public string internalid;
@@ -18,6 +22,25 @@ namespace TwitchApi
         public TwitchChannel(string channelid)
         {
             this.internalid = channelid;
+        }
+
+        public TwitchChannel(XmlNode xML)
+        {
+
+            internalid = (xML["StreamKey"] == null) ? "_blank" : xML["StreamKey"].InnerText;
+            display_name = (xML["Name"] == null) ? "_blank" : xML["Name"].InnerText;
+
+            localavatar = (xML["Picture"] == null) ? "_blank" : (xML["Picture"].InnerText);
+            localavatar = Encoding.UTF8.GetString(Convert.FromBase64String(localavatar));
+
+            status = (xML["Title"] == null) ? "_blank" : xML["Title"].InnerText;
+            status = Encoding.UTF8.GetString(Convert.FromBase64String(status));
+
+            url = (xML["Url"] == null) ? "_blank" : (xML["Url"].InnerText);
+            url = Encoding.UTF8.GetString(Convert.FromBase64String(url));
+
+
+
         }
 
         public void GetChannelInfos(bool init = false)
@@ -69,5 +92,5 @@ namespace TwitchApi
 
 
 
-    }
+    }*/
 }

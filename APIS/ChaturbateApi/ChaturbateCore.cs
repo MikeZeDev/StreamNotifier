@@ -13,7 +13,7 @@ namespace ChaturbateApi
         public static bool inited = false;
         public static string Streamtype = "Chaturbate";
 
-        private static string URLPATTERN = @"(http(s)?://)?(?<subdomain>([\w\-]+))?(.)?chaturbate.com/(?<username>[a-zA-Z0-9]+)";
+        private static string URLPATTERN = @"(http(s)?://)?(?<subdomain>([\w\-]+))?(.)?chaturbate.com/(?<username>[a-zA-Z0-9_]+)";
 
 
 

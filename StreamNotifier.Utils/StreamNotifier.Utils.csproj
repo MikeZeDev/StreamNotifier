@@ -45,6 +45,12 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StreamNotifier.Interfaces\StreamNotifier.Interfaces.csproj">
+      <Project>{EF72B7E6-064C-4AA6-9CA3-5E921DB62609}</Project>
+      <Name>StreamNotifier.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,4 +1,6 @@
 ﻿
+using System.Xml;
+
 namespace StreamNotifier.Interfaces
 {
 
@@ -98,6 +100,7 @@ namespace StreamNotifier.Interfaces
         /// </summary>
         bool CheckPending
         { get; set; }
+        string StreamerID { get; set; }
 
 
         /// <summary>
@@ -110,9 +113,11 @@ namespace StreamNotifier.Interfaces
         /// </summary>
         bool GoneOnline();
 
- 
 
-
+        /// <summary>
+        /// Update stream informations offline from an XML NODE
+        /// </summary>
+        void FromXML(XmlNode xML);
 
 
     }
