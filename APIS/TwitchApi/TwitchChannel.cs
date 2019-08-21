@@ -60,10 +60,8 @@ namespace TwitchApi
 
 
             if (init)
-            {
+            { 
                 //download user icon
-                SecurityProtocolType backupprotocol = ServicePointManager.SecurityProtocol;
-
                 try
                 {
                     string filename = "channel_" + this.internalid + "_" + Path.GetFileName(new Uri(logo).AbsolutePath);
@@ -73,19 +71,12 @@ namespace TwitchApi
                     using (WebClient client = new WebClient())
                     {
                         File.Delete(this.localavatar);
-                       
-
-                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                         client.DownloadFile(this.logo, this.localavatar);
                         Helper.ScaleImageFile(this.localavatar,80,80);
                     }
 
                 }
-                catch
-                {
-                }
-
-                 ServicePointManager.SecurityProtocol = backupprotocol;
+                catch { }
 
             }
         }
